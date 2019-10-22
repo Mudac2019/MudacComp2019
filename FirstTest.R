@@ -99,8 +99,8 @@ newTable %>%
   facet_wrap(~Contract)
 
 SoybeanJuly <- SoybeanJuly %>% select(-length(SoybeanJuly))
-SoybeanMarch <- SoybeanMarch %>% select(-length(SoybeanJuly))
-SoybeanMay <- SoybeanMay %>% select(-length(SoybeanJuly))
+SoybeanMarch <- SoybeanMarch %>% select(-length(SoybeanMarch))
+SoybeanMay <- SoybeanMay %>% select(-length(SoybeanMay))
 
 SoybeanMarch <- SoybeanMarch %>% mutate()
 plot(SoybeanJuly)
