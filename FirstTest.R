@@ -110,4 +110,4 @@ temp2 <- SoybeanMarch %>% select(1,5)
 
 temp2 %>% inner_join(temp1, by = "Date")
 
-?wilcox.test()
+
