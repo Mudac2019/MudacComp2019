@@ -334,7 +334,7 @@ March17.18.Decrease<-
 
 March17.19.Final.Value<-
   March17.18.Decrease%>%
-  mutate(March19.Final = ( as.double(`Close 2018`) - as.double(`Close 2018`) * abs(Percent))
+  mutate(March19.Final = ( as.double(`Close 2018`) - as.double(`Close 2018`) * abs(Percent)))
 
 # Take March 2019 and add final months 
 SoybeanMarch.19 <-
