@@ -114,6 +114,9 @@ EndResult.July %>%
 SoybeanMay <- read_excel("May.xlsx",
                          col_types = c("date", "text", "text", "text", "text"))
 
+# Missing dates from 2017, need 08-11/14, use July contract data 
+July17.18 %>% union(SoybeanMay)
+
 SoybeanMay <-
   SoybeanMay  %>% separate(Date,into = c("Year", "Month", "Day"), sep = "-")
 
@@ -167,9 +170,16 @@ May17.18<-
   May17.18 %>%
   select(1:2,4,5,3)
 
+July17.18 %>% union(May17.18)
+July17.18 %>% anti_join(May17.18)
+
+# Join may and july data to fill in gaps 
+newMay17.18 <- July17.18 %>% union(May17.18)
+
 May17.18.Decrease<-
-  May17.18%>%
+  newMay17.18%>%
   mutate(Percent = (as.double(`Close 2018`) - as.double(`Close 2017`))/ as.double((`Close 2017`)))
+# Looks good
 
 May17.19.Final.Value<-
   May17.18.Decrease%>%
@@ -203,6 +213,15 @@ EndResult.May<-
   mutate(Close = as.numeric(Close)) %>%
   union(May17.19.Final.Value)
 
+view(EndResult.May)
+# Gives Nov and Dec data for both contracts 
+# Should switch to March contract Nov 14th 
+# Remove rows 209 - 232 
+
+EndResult.May <- 
+  EndResult.May %>%
+  slice(-(209:232))
+
 EndResult.May %>%
   ggplot(aes(x = Month, y = Close, color = Month)) +
   ylim(850,1000) +
@@ -213,6 +232,8 @@ view(EndResult.May)
 #### March ####
 SoybeanMarch <- read_excel("March.xlsx", 
                            col_types = c("date", "text", "text", "text", "text"))
+SoybeanMarch
+# Missing data until Nov 14th, use July contract data 
 
 SoybeanMarch <- 
   SoybeanMarch  %>% separate(Date,into = c("Year", "Month", "Day"), sep = "-")
@@ -267,8 +288,13 @@ March17.18<-
   March17.18 %>%
   select(1:2,4,5,3)
 
+July17.18 %>% union(March17.18)
+
+NewMarch17.18 <- 
+  July17.18 %>% union(March17.18)
+
 March17.18.Decrease<-
-  March17.18%>%
+  NewMarch17.18%>%
   mutate(Percent = (as.double(`Close 2018`) - as.double(`Close 2017`))/ as.double((`Close 2017`)))
 
 March17.19.Final.Value<-
@@ -304,20 +330,34 @@ EndResult.March<-
   mutate(Close = as.numeric(Close)) %>%
   union(March17.19.Final.Value)
 
+view(EndResult.March)
+# Gives Nov and Dec data for both contracts 
+# Should switch to March contract Nov 14th 
+# Remove rows 209 - 232 
+
+EndResult.March <- 
+  EndResult.March %>%
+  slice(-(209:232))
+
+view(EndResult.March)
+
 EndResult.March %>%
   ggplot(aes(x = Month, y = Close, color = Month)) +
   ylim(850,1000) +
   geom_point() 
 
-# Means 
+view(EndResult.March)
+# Showing July when it should show March as contract 
+
+#### Means 
 mean(EndResult.July$Close)
 #939.7093
 
 mean(EndResult.May$Close)
-# 939.5505
+# 934.0489
 
 mean(EndResult.March$Close)
-# 931.8312
+# 928.2594
 
 fullContract<- 
   fullMarch %>%
