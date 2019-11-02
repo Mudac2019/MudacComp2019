@@ -347,17 +347,17 @@ EndResult.March %>%
   geom_point() 
 
 view(EndResult.March)
-# Showing July when it should show March as contract 
+# Showing July when it should show March as contract??  
 
 #### Means 
 mean(EndResult.July$Close)
 #939.7093
 
 mean(EndResult.May$Close)
-# 934.0489
+# 932.4607
 
 mean(EndResult.March$Close)
-# 928.2594
+# 926.0723
 
 fullContract<- 
   fullMarch %>%
