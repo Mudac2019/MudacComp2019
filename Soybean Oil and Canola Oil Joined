@@ -1,0 +1,17 @@
+
+soybeanOil <- read_xlsx("Soybean Oil .xlsx") %>%
+  separate(Date,into = c("Year", "Month", "Day"), sep = "-")
+
+canolaOil <- read_xlsx("Canola Oil Data .xlsx") %>%
+  separate(Date,into = c("Year", "Month", "Day"), sep = "-")
+
+soy.canola <- 
+  soybeanOil %>%
+  inner_join(canolaOil)
+
+soy.canola <- 
+soy.canola %>% select(-4)
+
+names(soy.canola) <- c("Year", "Month", "Day", "Soybean Oil", "Canola Oil")
+
+soy.canola
